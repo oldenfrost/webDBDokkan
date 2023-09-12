@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+
+
+</head>
+<body class="d-flex flex-column min-vh-100 bg-dark text-white">
+    <style>
+
+        nav {
+            border-bottom: 2px solid #ee550e;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="@Url.Action("Index", "Tienda")"><img id="mi-imagen" class="imgTam" src="~/asset/logoPagina.png" alt="Alternate Text"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 ">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Tienda")">Inicio</a></li>
+                    @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Tienda")">About</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            </ul>
+                        </li>*@
+                </ul>
+                <form class="d-flex">
+                    @if (Session["Cliente"] == null)
+                    {
+                        <ul class="navbar-nav d-flex flex-row ">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link p-0" aria-current="page" href="@Url.Action("Index", "Acceso")">
+
+                                    <img id="mi-imagen" class="imgTam" src="~/asset/vegetaNormal.svg" alt="Alternate Text">
+                                    <div>iniciar Sesion</div>
+
+                                </a>
+                            </li>
+                        </ul>
+
+
+
+                    }
+                    else
+                    {
+
+                        <a class="btn btn-outline-light h-100 mt-4" href="@Url.Action("Carrito", "Tienda")">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            Carrito 
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cantidadcarrito">0</span>
+                        </a>
+                        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link " id="navbarDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                                    <img id="mi-imagen" class="imgTam" src="~/asset/vegetaSS1.svg" alt="Alternate Text" />
+
+
+
+
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#!"><b> @User.Identity.Name</b></a></li>
+                                    <li><hr class="dropdown-divider " /></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("MisCompras","Tienda")"> Mis compras</a></li>
+                                    <li><hr class="dropdown-divider " /></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("CerrarSesion","Acceso")">Cerrar Sesion</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    }
+
+                </form>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+    <div class="container body-content">
+
+        <hr />
+
+    </div>
+    <footer>
+        <div class="text-muted">Copyright &copy; Eduardo Cespedes 2023</div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", required: false)
+
+<script>
+    $(document).ready(function (){
+        MostrarCantidadCarrito();
+    })
+        function MostrarCantidadCarrito() {
+            if ($("#cantidadcarrito").length > 0) {
+                jQuery.ajax({
+                    url: '@Url.Action("CantidadEnCarrito", "Tienda")',
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $("#cantidadcarrito").text(data.cantidad)
+                    }
+                });
+            }
+
+        }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login - SB Admin</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/asset/hero.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-dark">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card bg-whiteN  shadow-lg border-0 rounded-lg mt-5">
+                                <div class=" d-flex justify-content-center rounded-5 ">
+                                    <img src="~/asset/usuario.png"
+                                         alt="login-icon"
+                                         style="height: 7rem" />
+                                </div>
+
+                                <div class="card-body ">
+                                    <div class="heroimagen  p-5 rounded-5 text-secondary shadow d-flex justify-content-center">
+
+                                        <form class="background-blanco" action="@Url.Action("Reestablecer","Acceso")" method="post">
+                                            <div class="text-center text-dark  fs-1 fw-bold">Recuperacion de contraseña</div>
+                                            <div class="input-group mt-4">
+                                                <label class="small mb-3 text-dark ">
+                                                    Ingrese el correo al que desea establecer la contraseña
+                                                </label>
+                                                <div class="input-group-text bg-dark text-white">
+                                                    <img src="~/asset/esfera1.png"
+                                                         alt="username-icon"
+                                                         style="height: 1rem" />
+                                                </div>
+
+                                                <input class="form-control bg-light"
+                                                       type="email" name="correo"
+                                                       placeholder="Correo" />
+                                            </div>
+
+                                            <div class="d-flex justify-content-around mt-1">
+                                                <div class="d-flex align-items-center gap-1">
+
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <div>
+
+                                                <button type="submit" class="btn btn-info  bg-dark text-white w-100 mt-4 fw-semibold border border-secondary ">Restaurar contraseña</button>
+                                                <br />
+                                                <br />
+                                                <div class="text-center text-dark"><a href="@Url.Action("Index","Acceso")">Regresar a inicio de sesion</a></div>
+                                            </div>
+                                            <br />
+                                            <br />
+
+                                            @{
+                                                if (ViewBag.Error != null)
+                                                {
+                                                    <div class="alert alert-danger" role="alert">
+                                                        @ViewBag.Error;
+                                                    </div>
+
+
+                                                }
+
+
+                                            }
+
+
+
+                                        </form>
+
+
+
+                                    </div>
+                                    <br />
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-dark mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center ">
+                        <div class="text-muted text-white ">Copyright &copy; Eduardo Cespedes</div>
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+
+</body>
+</html>

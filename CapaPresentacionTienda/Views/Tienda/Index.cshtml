@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <style>
+            </style>
+            <h2>¡Cuentas épicas de Dragon Ball Dokkan! Desata el poder de tus héroes.</h2>
+            <div class="hero-image">
+                <img class="imagenporunga" src="~/asset/porunga2.png" alt="logoPorunga">
+                <video autoplay loop muted>
+                    <source src="~/asset/esferas.mp4" type="video/mp4">
+
+                </video>
+
+            </div>
+    
+
+
+        </div>
+    </div>
+</header>
+
+<!-- Section-->
+<section >
+    <div class="header">
+
+        <h2 id="productos_populares" class=" text-center border-5 border-bottom text-white" style="padding-top: 70px;">Productos</h2>
+    </div>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row">
+            <div class="col-sm-2">
+
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header bg-white text-black">
+                                Categorias
+                            </div>
+                        </div>
+                        <div id="contenedor_categoria" class="card-body">
+                           
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="d-grid gap-2">
+                                <button id="btnaplicarfiltro" class=" btn btn-outline-dark  btn-block" type="button">
+                                    <i class="fas fa-filter"> </i> Aplicar Filtros
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-sm-9">
+                <div id="contenedor_producto" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+     
+    </div>
+</section>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            MostrarCategorias();
+            MostrarProductos(0)
+        })
+        function MostrarCategorias() {
+            var _idcategoria=$("input[name=categoria]:checked").val()
+            jQuery.ajax({
+                url: "@Url.Action("ListaCategorias","Tienda")",
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+
+                    $("#contenedor_categoria").LoadingOverlay("hide");
+                    $("<div>").addClass("form-check").append(
+                        $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "categoria", "value": "0", "id": "cx", "checked": "checked" }),
+                         $("<label>").addClass("form-check-label").text("Todos").attr({ "for": "cx" })
+                    ).appendTo("#contenedor_categoria")
+
+                    $.each(response.data, function (i, element) {
+                        $("<div>").addClass("form-check").append(
+                            $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "categoria", "value": element.IdCategoria, "id": "c"+i }),
+                            $("<label>").addClass("form-check-label").text(element.Descripcion).attr({ "for": "c" + i })
+                        ).appendTo("#contenedor_categoria")
+                    })
+                },
+                beforeSend: function () {
+                    $("#contenedor_categoria").LoadingOverlay("show", {
+                        background: "rgba(0, 0, 0, 0.7)",
+                        image: "/asset/bola.png",
+                        text: "Cargando...",
+                        imageAnimation: "1.5s fadein",
+                        textColor: "#ffffff"
+                    });
+                }
+            })
+        }
+
+          function MostrarProductos(_idcategoria) {
+            jQuery.ajax({
+                url: "@Url.Action("ListarProductos", "Tienda")",
+                type: "POST",
+                data: JSON.stringify({ idcategoria:_idcategoria}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    $("#contenedor_producto").html("");
+                    $("#contenedor_producto").LoadingOverlay("hide");
+
+
+
+                    $.each(response.data, function (i, element) {
+                        $("<div>").addClass("col mb-5  ").append(
+                            $("<div>").addClass("card h-100 bg-dark").append(
+                                $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
+                                $("<div>").addClass("card-body p-4").append(
+                                    $("<div>").addClass("text-center text-white").append(
+                                        $("<h5>").addClass("fw-bolder ").text(element.Nombre),
+                                        "$ "+ element.Precio.toFixed(2)+"USD"
+                                    )
+
+                                ),
+                                $("<div>").addClass("card-footer p-2 pt-0 border-top-0 bg-transparent").append(
+                                    $("<div>").addClass("d-grid gap-2").append(
+                                          @if (Session["Cliente"] != null)
+                                          {
+                                            @:$("<button>").addClass("btn btn-success mt-auto agregarcarrito").data("idproducto", element.IdProducto).text("agregar a carrito "),
+
+
+                                         }
+                                           $("<a>").addClass("btn btn-outline-light mt-auto").attr({"href":"@Url.Action("DetalleProducto", "Tienda")"+"?idproducto="+element.IdProducto}).text("ver detalle")
+
+                                    )
+
+                                 )
+                            )
+                        ).appendTo("#contenedor_producto")
+                    })
+                },
+                beforeSend: function () {
+                    $("#contenedor_producto").LoadingOverlay("show");
+                }
+            })
+        }
+        $("#btnaplicarfiltro").click(function () {
+            var _idcategoria = $("input[name=categoria]:checked").val()
+            MostrarProductos(_idcategoria)
+        })
+
+      
+  
+        $(document).on("click", "button.agregarcarrito", function () {
+                jQuery.ajax({
+                    url: '@Url.Action("AgregarCarrito", "Tienda")',
+                    type: "POST",
+                    data: JSON.stringify({ idproducto: $(this).data("idproducto")}),
+                    dataType:"json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log(data.respuesta);
+                        if (data.respuesta) {
+                            MostrarCantidadCarrito();
+
+                            swal({
+                                title: "Agregado al carrito",
+                                text: "Desea ir al carrito?",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-primary",
+                                confirmButtonText: "Si",
+                                cancelButtonText: "No",
+                                closeOnConfirm: true
+                            }, function () {
+                                window.location.href = '@Url.Action("Carrito","Tienda")'
+
+                            })
+                        } else {
+                            console.log("o entra aqui");
+                            swal("", data.mensaje, "warning");
+                       
+                        }
+                       
+                    }
+                });
+         })
+     
+
+    </script>
+    }
+
+
+
+
+
+
+

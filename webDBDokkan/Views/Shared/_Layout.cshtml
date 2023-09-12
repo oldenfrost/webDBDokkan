@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+
+
+    <title>@ViewBag.Title - DB DOKKAN</title>
+    @Styles.Render("~/Content/css")
+
+</head>
+<body class="sb-nav-fixed" >
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark grosor">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">
+            <div class="contenedor">
+                <img class="logo" src="https://dbz-dokkan.bn-ent.net/fr/images/top/logo_l.png" alt="logo" />
+            </div>  
+        </a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 menu" id="sidebarToggle" href="#!"><i class="fas fa-2x fa-bars "></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link " id="navbarDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                    <img id="mi-imagen" class="imgTam" src="~/asset/vegetaSS1.svg" alt="Alternate Text" />
+                    
+                   
+                    
+
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end bg-dark  " aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Correo</a></li>
+                    <li><hr class="dropdown-divider " /></li>
+                    <li><a class="dropdown-item" href="@Url.Action("CerrarSesion","Acceso")">Cerrar Sesion</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <br />
+            <br />
+            <br />
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Resumen</div>
+                        <a class="nav-link" href="@Url.Action("Index","Home")"  >
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                            Usuarios
+                        </a>
+
+
+                       
+                        <div class="sb-sidenav-menu-heading">Mantenimiento</div>
+                        <a class="nav-link" href="@Url.Action("Categoria","Mantenimiento")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Categorias
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Producto","Mantenimiento")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                            Productos
+                        </a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    Start Bootstrap
+                </div>
+            </nav>
+        </div>
+
+
+        <div id="layoutSidenav_content">
+
+
+            <main>
+                <div class="container-fluid px-4">
+                    @RenderBody()
+                </div>
+            </main>
+
+
+
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Eduardo Cespedes 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    @*
+        <ul class="navbar-nav flex-grow-1">
+            <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        </ul>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
